@@ -1,9 +1,10 @@
 :root {
   color-scheme: light dark;
-  --bg: #f7f2e8; --ink: #2b241c; --mute: #6b5f50; --line: #e0d6c4; --sun: #a84f12;
+  --bg: #f7f2e8; --card: #fffaf0; --ink: #2b241c; --mute: #6b5f50; --line: #e0d6c4; --sun: #a84f12;
+  --serif: Georgia, "Noto Serif", serif;
 }
 @media (prefers-color-scheme: dark) {
-  :root { --bg: #16120e; --ink: #efe6d6; --mute: #a89a86; --line: #2e271f; --sun: #e9a25a; }
+  :root { --bg: #16120e; --card: #211b15; --ink: #efe6d6; --mute: #a89a86; --line: #2e271f; --sun: #e9a25a; }
 }
 * { box-sizing: border-box; }
 body {
@@ -16,8 +17,27 @@ button { font-family: inherit; }
 button:focus-visible { outline: 2px solid var(--sun); outline-offset: -2px; }
 
 .brand { margin: 0 0 20px; color: var(--sun); font-size: 0.85rem; font-weight: 600; letter-spacing: 0.02em; }
-h1 { margin: 0 0 6px; font: 600 2rem/1.2 Georgia, "Noto Serif", serif; letter-spacing: -0.01em; }
+h1 { margin: 0 0 6px; font: 600 2rem/1.2 var(--serif); letter-spacing: -0.01em; }
+h2 { margin: 0 0 12px; font: 600 1.35rem/1.25 var(--serif); }
 .sub { margin: 0; color: var(--mute); }
+
+/* ---------- today ---------- */
+.passage { margin-top: 28px; }
+.verses { margin: 0; padding-left: 1.6em; font: 1.125rem/1.65 var(--serif); }
+.verses li { margin-bottom: 0.45em; }
+.verses li::marker { content: counter(list-item) "  "; color: var(--mute); font-size: 0.75rem; }
+.retry {
+  margin-top: 12px; min-height: 44px; padding: 0 16px; border: 1px solid var(--line); border-radius: 12px;
+  background: none; color: var(--ink); font-size: 0.95rem;
+}
+
+.reflect { margin-top: 32px; padding: 16px 18px; background: var(--card); border-left: 3px solid var(--sun); border-radius: 4px; }
+.reflect h2 { margin-bottom: 6px; color: var(--sun); font: 600 0.85rem/1.3 system-ui, sans-serif; letter-spacing: 0.02em; }
+.reflect p { margin: 0; font: 1.1rem/1.5 var(--serif); }
+
+.status { margin-top: 24px; }
+.big { width: 100%; min-height: 52px; border: 0; border-radius: 14px; background: var(--sun); color: var(--bg); font-size: 1rem; font-weight: 700; }
+.done { margin: 0; padding: 14px 0; color: var(--sun); font-weight: 600; text-align: center; }
 
 /* ---------- tabs ---------- */
 .tabs {

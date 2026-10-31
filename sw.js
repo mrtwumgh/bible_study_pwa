@@ -2,7 +2,7 @@
 // Bump the version in CACHE whenever you change any file, or phones keep the old copy.
 
 const PREFIX = "day-unto-day-";
-const CACHE = `${PREFIX}v1`;
+const CACHE = `${PREFIX}v2`;
 const FILES = [
   "./",
   "index.html",
@@ -11,7 +11,13 @@ const FILES = [
   "icon-192.png",
   "icon-512.png",
   "badge-96.png",
+  "data/plan.json",
   "js/main.js",
+  "js/util.js",
+  "js/db.js",
+  "js/plan.js",
+  "js/bible.js",
+  "js/views/today.js",
 ];
 
 // Save every file up front. If one is missing the install fails and the previous version keeps working.
