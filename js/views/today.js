@@ -2,6 +2,7 @@
 
 import { currentProgress, markRead, readingFor, passagesAfter, planLength } from "../plan.js";
 import { getVerses, saveAhead } from "../bible.js";
+import { getEntry, saveEntry } from "../journal.js";
 import { esc } from "../util.js";
 
 const SAVE_AHEAD_DAYS = 7;
@@ -39,6 +40,7 @@ export async function renderToday(view) {
   const progress = await currentProgress();
   const reading = readingFor(progress.day);
   if (!reading) return showFinished(view);
+  const entry = await getEntry(progress.day);
   if (progress.day === shownDay) return showStatus(view, progress); // same reading: keep your place on the page
   shownDay = progress.day;
 
@@ -48,9 +50,19 @@ export async function renderToday(view) {
     ${reading.passages
       .map((p) => `<section class="passage" data-passage="${esc(p)}"><h2>${esc(p)}</h2><div class="body"></div></section>`)
       .join("")}
-    ${reading.question ? `<aside class="reflect"><h2>Reflect</h2><p>${esc(reading.question)}</p></aside>` : ""}
+    <aside class="reflect">
+      <h2>Reflect</h2>
+      ${reading.question ? `<p>${esc(reading.question)}</p>` : ""}
+      <textarea id="entry" aria-label="Your reflection" placeholder="Write a short reflection">${esc(entry?.text || "")}</textarea>
+      <p class="hint">Saved on this phone as you type.</p>
+    </aside>
     <div class="status" aria-live="polite"></div>`;
   showStatus(view, progress);
+
+  // Saved on every keystroke, not with a button, so swiping the app away can't lose anything.
+  view.oninput = (e) => {
+    if (e.target.id === "entry") saveEntry(reading, e.target.value);
+  };
 
   view.onclick = async (e) => {
     if (e.target.closest("[data-mark]")) showStatus(view, await markRead());

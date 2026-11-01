@@ -4,7 +4,6 @@
 // IndexedDB isn't touched by that, so scripture, progress and the journal stay safe.
 
 const DB_NAME = "day-unto-day"; // all your apps share this site, so the name has to be specific
-// The journal store is empty until Phase 3. Creating it now means the database never has to be upgraded.
 const STORES = ["progress", "passages", "journal"];
 
 let opening;
@@ -25,6 +24,16 @@ export async function read(store, key) {
   const conn = await db();
   return new Promise((resolve, reject) => {
     const req = conn.transaction(store).objectStore(store).get(key);
+    req.onsuccess = () => resolve(req.result);
+    req.onerror = () => reject(req.error);
+  });
+}
+
+/** Every value in a store, in key order. */
+export async function readAll(store) {
+  const conn = await db();
+  return new Promise((resolve, reject) => {
+    const req = conn.transaction(store).objectStore(store).getAll();
     req.onsuccess = () => resolve(req.result);
     req.onerror = () => reject(req.error);
   });
